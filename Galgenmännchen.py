@@ -22,6 +22,10 @@ def GetWordIndices(word, guess):
 
 
 def Play():
+
+    PrintHangmanStage()
+    print("Willkommen zu Galgenmännchen")
+    GetRandomWordfromList()
     word_was_guessed = False
     remaining_tries = 6
     hidden_letter_symbol = "_"
@@ -45,7 +49,6 @@ def Play():
                 print(stages[remaining_tries])
                 if remaining_tries == 0:
                     print("Verloren!")
-
         elif guess in word:
             if guess == word:
                 print(stages[remaining_tries])
@@ -64,8 +67,11 @@ def Play():
                     print("Glückwunsch!")
                     word_was_guessed = True
 
+    decision = input("Noch eine Runde? Dann bestätige mit 'JA': ").upper()
+    if decision == "JA":
+        Play()
+    else:
+        print("Auf Wiedersehen!")
 
-PrintHangmanStage()
-print("Willkommen zu Galgenmännchen")
-GetRandomWordfromList()
+
 Play()
