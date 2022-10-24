@@ -1,5 +1,4 @@
 from hangmanStages import stages
-from Words import word_list
 import random
 
 
@@ -8,8 +7,10 @@ def PrintHangmanStage():
 
 
 def GetRandomWordfromList():
-    global word
+    word_list = ["Giraffe", "Zebra", "Hund", "Katze"]
     word = random.choice(word_list).upper()
+
+    return word
 
 
 def GetWordIndices(word, guess):
@@ -23,9 +24,7 @@ def GetWordIndices(word, guess):
 
 def Play():
 
-    PrintHangmanStage()
-    print("Willkommen zu Galgenmännchen")
-    GetRandomWordfromList()
+    word = GetRandomWordfromList()
     word_was_guessed = False
     remaining_tries = 6
     hidden_letter_symbol = "_"
@@ -33,45 +32,49 @@ def Play():
     word_completion_list = list(word_completion)
     lastGuess = ""
 
+    PrintHangmanStage()
+
+    print("Willkommen zu Galgenmännchen")
+
     while not word_was_guessed and remaining_tries > 0:
 
         guess = input("Buchstabe oder Wort eingeben: ").upper()
 
-        if guess not in word:
-            if lastGuess == guess:
-                print("Du hast", guess, "schon mal versucht")
-                remaining_tries -= 1
-                print(stages[remaining_tries])
-            else:
-                lastGuess = guess
-                print("Das gesuchte Wort enthält den Buchstaben", guess, "nicht.")
-                remaining_tries -= 1
-                print(stages[remaining_tries])
-                if remaining_tries == 0:
-                    print("Verloren!")
+        if lastGuess == guess:
+            print("Du hast", guess, "schon mal versucht")
+            remaining_tries -= 1
+            print(stages[remaining_tries])
+        elif guess not in word:
+            lastGuess = guess
+            print("Das gesuchte Wort enthält den Buchstaben", guess, "nicht.")
+            remaining_tries -= 1
+            print(stages[remaining_tries])
+            if remaining_tries == 0:
+                print("Verloren!")
         elif guess in word:
-            if guess == word:
-                print(stages[remaining_tries])
-                print(word)
-                print("Glückwunsch!")
-                word_was_guessed = True
-            else:
-                print(f"Das gesuchte Wort enthält den Buchstaben '{guess}'.")
-                print(stages[remaining_tries])
-                index = GetWordIndices(word, guess)
-                for indices in index:
-                    word_completion_list[indices] = guess
-                print("".join(word_completion_list))
+            print(f"Das gesuchte Wort enthält den Buchstaben '{guess}'.")
+            print(stages[remaining_tries])
+            index = GetWordIndices(word, guess)
+            for indices in index:
+                word_completion_list[indices] = guess
+            print("".join(word_completion_list))
+        elif guess == word:
+            break
+        elif "".join(word_completion_list) == word:
+            break
 
-                if "".join(word_completion_list) == word:
-                    print("Glückwunsch!")
-                    word_was_guessed = True
+    print(stages[remaining_tries])
+    print(word)
+    print("Glückwunsch!")
+    word_was_guessed = True
 
+
+Play()
+
+while True:
     decision = input("Noch eine Runde? Dann bestätige mit 'JA': ").upper()
     if decision == "JA":
         Play()
     else:
         print("Auf Wiedersehen!")
-
-
-Play()
+        break
