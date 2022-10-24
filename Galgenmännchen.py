@@ -49,8 +49,6 @@ def Play():
             print("Das gesuchte Wort enthält den Buchstaben", guess, "nicht.")
             remaining_tries -= 1
             print(stages[remaining_tries])
-            if remaining_tries == 0:
-                print("Verloren!")
         elif guess in word:
             print(f"Das gesuchte Wort enthält den Buchstaben '{guess}'.")
             print(stages[remaining_tries])
@@ -62,10 +60,13 @@ def Play():
         if guess == word or "".join(word_completion_list) == word:
             break
 
-    print(stages[remaining_tries])
-    print(word)
-    print("Glückwunsch!")
-    word_was_guessed = True
+    if remaining_tries == 0:
+        print("Verloren!")
+    else:
+        print(stages[remaining_tries])
+        print(word)
+        print("Glückwunsch!")
+        word_was_guessed = True
 
 
 Play()
