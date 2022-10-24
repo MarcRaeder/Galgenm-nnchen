@@ -58,9 +58,8 @@ def Play():
             for indices in index:
                 word_completion_list[indices] = guess
             print("".join(word_completion_list))
-        elif guess == word:
-            break
-        elif "".join(word_completion_list) == word:
+
+        if guess == word or "".join(word_completion_list) == word:
             break
 
     print(stages[remaining_tries])
